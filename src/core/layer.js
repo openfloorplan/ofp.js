@@ -16,13 +16,27 @@ d3.selection.prototype.size = function() {
 
 
 ofp.Layer = function (layerType, floorplan) {
+
 	this.name = layerType.name;
 	this.layerType = layerType;
-	this.layer = d3.selectAll(layerType.idList.join());
 
 	//Private
 	var parent = floorplan,
 		that = this;
+
+	/**
+	 * Repair missing information from the data standard
+	 */
+	function repair() {
+		//assign className if missing by using group ids
+		that.layerType.idList.forEach(function (element, index, array) {
+			var selection = parent.svg.selectAll(element);
+			if (!selection.classed(that.layerType.className)) {
+				console.log("Repairing className for " + selection.size() + " elements with id " + element);
+				selection.classed(that.layerType.className, true);
+			}
+		});
+	}
 
 	function destroy() {
 		that.name = null;
@@ -37,6 +51,11 @@ ofp.Layer = function (layerType, floorplan) {
 		//reset to empty selection
 		this.layer = d3.selectAll(this.layerType.idList.join());
 	};
+
+	//Initialize
+	repair();
+	this.layer = parent.svg.selectAll('.' + layerType.className);
+	this.elements = this.layer.selectAll('polygon, line, path, text');
 };
 
 //Public
