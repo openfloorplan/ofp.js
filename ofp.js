@@ -19,8 +19,10 @@ ofp.Layer = function(layerType, floorplan) {
   function repair() {
     that.layerType.idList.forEach(function(element, index, array) {
       var selection = parent.svg.selectAll(element);
-      console.log("Found " + selection.size() + " elements with id " + element);
-      selection.classed(that.layerType.className, true);
+      if (selection && selection.size() > 0 && !selection.classed(that.layerType.className)) {
+        console.log("Repairing className: " + that.layerType.className + " for " + selection.size() + " elements with id " + element);
+        selection.classed(that.layerType.className, true);
+      }
     });
   }
   function destroy() {
@@ -35,6 +37,7 @@ ofp.Layer = function(layerType, floorplan) {
   repair();
   this.layer = parent.svg.selectAll("." + layerType.className);
   this.elements = this.layer.selectAll("polygon, line, path, text");
+  console.log("Initialized Layer: " + this.layerType.name + " with " + this.elements.size() + " elements.");
 };
 
 ofp.Layer.prototype = {
@@ -72,20 +75,16 @@ ofp.LayerType.Column = new ofp.LayerType("Column", "ofp-column", [ "#Column", "#
 
 ofp.LayerType.Construction = new ofp.LayerType("Construction", "ofp-construction", [ "#Constructions", "#Frames" ]);
 
-ofp.LayerType.DimensionAnnotations = new ofp.LayerType("Dimension Annotations", "ofp-annotations-dimensions", [ "#A-ANNO-DIMS", "#Dimension" ]);
+ofp.LayerType.DimensionAnnotations = new ofp.LayerType("Dimension Annotations", "ofp-annotations-dimensions", [ "#Dimension", "#A-ANNO-DIMS" ]);
 
 "use strict";
 
 ofp.FloorPlan = function(container) {
   this.svg = d3.select(container).select("svg");
   this.spaces = new ofp.Layer(ofp.LayerType.Space, this);
-  console.log("Layer " + this.spaces.layerType.name + " has " + this.spaces.elements.size() + " elements.");
   this.columns = new ofp.Layer(ofp.LayerType.Column, this);
-  console.log("Layer " + this.columns.layerType.name + " has " + this.columns.elements.size() + " elements.");
   this.constructions = new ofp.Layer(ofp.LayerType.Construction, this);
-  console.log("Layer " + this.constructions.layerType.name + " has " + this.constructions.elements.size() + " elements.");
   this.dimensionAnnotations = new ofp.Layer(ofp.LayerType.DimensionAnnotations, this);
-  console.log("Layer " + this.dimensionAnnotations.layerType.name + " has " + this.dimensionAnnotations.elements.size() + " elements.");
   var parent = container;
   function getInnerHTML() {
     return parent.innerHTML;

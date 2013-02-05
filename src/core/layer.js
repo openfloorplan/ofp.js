@@ -31,8 +31,8 @@ ofp.Layer = function (layerType, floorplan) {
 		//assign className if missing by using group ids
 		that.layerType.idList.forEach(function (element, index, array) {
 			var selection = parent.svg.selectAll(element);
-			if (!selection.classed(that.layerType.className)) {
-				console.log("Repairing className for " + selection.size() + " elements with id " + element);
+			if (selection && selection.size() > 0 && !selection.classed(that.layerType.className)) {
+				console.log("Repairing className: " + that.layerType.className + " for " + selection.size() + " elements with id " + element);
 				selection.classed(that.layerType.className, true);
 			}
 		});
@@ -56,6 +56,8 @@ ofp.Layer = function (layerType, floorplan) {
 	repair();
 	this.layer = parent.svg.selectAll('.' + layerType.className);
 	this.elements = this.layer.selectAll('polygon, line, path, text');
+
+	console.log("Initialized Layer: " + this.layerType.name + " with " + this.elements.size() + " elements.");
 };
 
 //Public

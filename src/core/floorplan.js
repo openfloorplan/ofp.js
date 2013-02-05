@@ -10,14 +10,16 @@
 ofp.FloorPlan = function (container) {
 	this.svg = d3.select(container).select("svg");
 
+
+
 	this.spaces = new ofp.Layer(ofp.LayerType.Space, this);
-	console.log("Layer "+ this.spaces.layerType.name + " has " + this.spaces.elements.size() + " elements.");
+
 	this.columns = new ofp.Layer(ofp.LayerType.Column, this);
-	console.log("Layer "+ this.columns.layerType.name + " has " + this.columns.elements.size() + " elements.");
+
 	this.constructions = new ofp.Layer(ofp.LayerType.Construction, this);
-	console.log("Layer "+ this.constructions.layerType.name + " has " + this.constructions.elements.size() + " elements.");
+
 	this.dimensionAnnotations = new ofp.Layer(ofp.LayerType.DimensionAnnotations, this);
-	console.log("Layer "+ this.dimensionAnnotations.layerType.name + " has " + this.dimensionAnnotations.elements.size() + " elements.");
+
 
 	//private
 	var parent = container;

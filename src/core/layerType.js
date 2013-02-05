@@ -24,5 +24,5 @@ ofp.LayerType.prototype = {
 ofp.LayerType.Space = new ofp.LayerType('Space', 'ofp-space', ['#bgspa_space_area_b']);
 ofp.LayerType.Column = new ofp.LayerType('Column', 'ofp-column', ['#Column', '#bgspa_column_area_b']);
 ofp.LayerType.Construction = new ofp.LayerType('Construction', 'ofp-construction', ['#Constructions', '#Frames']);
-ofp.LayerType.DimensionAnnotations = new ofp.LayerType('Dimension Annotations', 'ofp-annotations-dimensions',  ['#A-ANNO-DIMS', '#Dimension']);
+ofp.LayerType.DimensionAnnotations = new ofp.LayerType('Dimension Annotations', 'ofp-annotations-dimensions',  ['#Dimension', '#A-ANNO-DIMS']);
 
