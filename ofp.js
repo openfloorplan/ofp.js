@@ -107,15 +107,19 @@ ofp.FloorPlan.prototype = {
   getViewBox: function() {
     var svgEl, viewBoxArr, viewBox;
     svgEl = this.svg[0][0];
-    viewBoxArr = svgEl.attributes.viewbox._nodeValue.split(" ");
-    viewBox = {
-      xMin: viewBoxArr[0],
-      yMin: viewBoxArr[1],
-      width: viewBoxArr[2],
-      height: viewBoxArr[3],
-      toString: function() {
-        return "SVG ViewBox xMin:" + this.xMin + " yMin:" + this.yMin + " width:" + this.width + " height:" + this.height;
-      }
+    if (svgEl && svgEl.viewBox && svgEl.viewBox.baseVal) {
+      viewBox = svgEl.viewBox.baseVal;
+    } else {
+      viewBoxArr = svgEl.attributes.viewbox._nodeValue.split(" ");
+      viewBox = {
+        x: viewBoxArr[0],
+        y: viewBoxArr[1],
+        width: viewBoxArr[2],
+        height: viewBoxArr[3]
+      };
+    }
+    viewBox.toString = function() {
+      return "SVG ViewBox xMin:" + this.x + " yMin:" + this.y + " width:" + this.width + " height:" + this.height;
     };
     console.log(viewBox.toString());
     return viewBox;
