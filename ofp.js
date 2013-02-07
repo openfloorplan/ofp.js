@@ -82,9 +82,13 @@ ofp.LayerType.DimensionAnnotations = new ofp.LayerType("Dimension Annotations", 
 ofp.FloorPlan = function(container) {
   this.svg = d3.select(container).select("svg");
   this.spaces = new ofp.Layer(ofp.LayerType.Space, this);
+  this.layers.push(this.spaces);
   this.columns = new ofp.Layer(ofp.LayerType.Column, this);
+  this.layers.push(this.columns);
   this.constructions = new ofp.Layer(ofp.LayerType.Construction, this);
+  this.layers.push(this.constructions);
   this.dimensionAnnotations = new ofp.Layer(ofp.LayerType.DimensionAnnotations, this);
+  this.layers.push(this.dimensionAnnotations);
   var parent = container;
   function getInnerHTML() {
     return parent.innerHTML;
@@ -104,6 +108,7 @@ ofp.FloorPlan = function(container) {
 
 ofp.FloorPlan.prototype = {
   svg: null,
+  layers: [],
   getViewBox: function() {
     var svgEl, viewBoxArr, viewBox;
     svgEl = this.svg[0][0];
@@ -123,5 +128,14 @@ ofp.FloorPlan.prototype = {
     };
     console.log(viewBox.toString());
     return viewBox;
+  },
+  getAvailableLayers: function() {
+    var availableLayers = [];
+    this.layers.forEach(function(element) {
+      if (element.size() > 0) {
+        availableLayers.push(element);
+      }
+    });
+    return availableLayers;
   }
 };

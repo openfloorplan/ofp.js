@@ -13,13 +13,13 @@ ofp.FloorPlan = function (container) {
 
 
 	this.spaces = new ofp.Layer(ofp.LayerType.Space, this);
-
+	this.layers.push(this.spaces);
 	this.columns = new ofp.Layer(ofp.LayerType.Column, this);
-
+	this.layers.push(this.columns);
 	this.constructions = new ofp.Layer(ofp.LayerType.Construction, this);
-
+	this.layers.push(this.constructions);
 	this.dimensionAnnotations = new ofp.Layer(ofp.LayerType.DimensionAnnotations, this);
-
+	this.layers.push(this.dimensionAnnotations);
 
 	//private
 	var parent = container;
@@ -61,6 +61,7 @@ ofp.FloorPlan = function (container) {
 //Public
 ofp.FloorPlan.prototype = {
 	svg: null,
+	layers: [],
 
 	/**
 	 * Get ViewBox
@@ -83,11 +84,21 @@ ofp.FloorPlan.prototype = {
 				height: viewBoxArr[3]
 			};
 		}
-		viewBox.toString=  function () {
+		viewBox.toString = function () {
 			return "SVG ViewBox xMin:" + this.x + ' yMin:' + this.y + ' width:' + this.width + ' height:' + this.height;
 		};
 		console.log(viewBox.toString());
 		return viewBox;
+	},
+
+	getAvailableLayers: function () {
+		var availableLayers = [];
+		this.layers.forEach(function (element) {
+			if (element.size() > 0) {
+				availableLayers.push(element);
+			}
+		});
+		return availableLayers;
 	}
 
 
