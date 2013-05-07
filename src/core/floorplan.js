@@ -13,13 +13,13 @@ ofp.FloorPlan = function (container) {
 
 
 	this.spaces = new ofp.Layer(ofp.LayerType.Space, this);
-
+	this.layers.push(this.spaces);
 	this.columns = new ofp.Layer(ofp.LayerType.Column, this);
-
+	this.layers.push(this.columns);
 	this.constructions = new ofp.Layer(ofp.LayerType.Construction, this);
-
+	this.layers.push(this.constructions);
 	this.dimensionAnnotations = new ofp.Layer(ofp.LayerType.DimensionAnnotations, this);
-
+	this.layers.push(this.dimensionAnnotations);
 
 	//private
 	var parent = container;
@@ -61,6 +61,7 @@ ofp.FloorPlan = function (container) {
 //Public
 ofp.FloorPlan.prototype = {
 	svg: null,
+	layers: [],
 
 	/**
 	 * Get ViewBox
@@ -69,20 +70,35 @@ ofp.FloorPlan.prototype = {
 	getViewBox: function () {
 		var  svgEl, viewBoxArr, viewBox;
 		svgEl = this.svg[0][0];
-		viewBoxArr = svgEl.attributes.viewbox._nodeValue.split(' '); //has to be done the hard way without browser SVG support
 
-		viewBox = {
-			xMin: viewBoxArr[0],
-			yMin: viewBoxArr[1],
-			width: viewBoxArr[2],
-			height: viewBoxArr[3],
-			toString: function () {
-				return "SVG ViewBox xMin:" + this.xMin + ' yMin:' + this.yMin + ' width:' + this.width + ' height:' + this.height;
-			}
+		if (svgEl && svgEl.viewBox && svgEl.viewBox.baseVal) {
+			viewBox = svgEl.viewBox.baseVal;
+		} else {
+			//has to be done the hard way without browser SVG support
+			viewBoxArr = svgEl.attributes.viewbox._nodeValue.split(' ');
+
+			viewBox = {
+				x: viewBoxArr[0],
+				y: viewBoxArr[1],
+				width: viewBoxArr[2],
+				height: viewBoxArr[3]
+			};
+		}
+		viewBox.toString = function () {
+			return "SVG ViewBox xMin:" + this.x + ' yMin:' + this.y + ' width:' + this.width + ' height:' + this.height;
 		};
-
 		console.log(viewBox.toString());
 		return viewBox;
+	},
+
+	getAvailableLayers: function () {
+		var availableLayers = [];
+		this.layers.forEach(function (element) {
+			if (element.size() > 0) {
+				availableLayers.push(element);
+			}
+		});
+		return availableLayers;
 	}
 
 
