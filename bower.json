@@ -1,8 +1,8 @@
 {
-  "name": "OFP",
+  "name": "ofp.js",
   "version": "0.0.1",
   "repository": {
     "type": "git",
-    "url": "git://bitbucket.org/syncadd/ofp.js.git"
+    "url": "git://github.com/openfloorplan/ofp.js.git"
   }
 }
