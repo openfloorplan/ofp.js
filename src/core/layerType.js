@@ -7,9 +7,9 @@ ofp.LayerType = function (name, className, idList) {
 };
 
 ofp.LayerType.prototype = {
-	name: '',
-	className: '',
-	idList: []
+    name: '',
+    className: '',
+    idList: []
 };
 
 ofp.LayerType.Space = new ofp.LayerType('Space', 'ofp-space', ['#bgspa_space_area_b']);
