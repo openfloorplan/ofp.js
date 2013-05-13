@@ -77,18 +77,27 @@ ofp.LayerType.Construction = new ofp.LayerType("Construction", "ofp-construction
 
 ofp.LayerType.DimensionAnnotations = new ofp.LayerType("Dimension Annotations", "ofp-annotations-dimensions", [ "#Dimension", "#A-ANNO-DIMS" ]);
 
-"use strict";
-
-ofp.FloorPlan = function(container) {
+ofp.FloorPlan = function(container, layerTypes) {
+  "use strict";
   this.svg = d3.select(container).select("svg");
-  this.spaces = new ofp.Layer(ofp.LayerType.Space, this);
-  this.layers.push(this.spaces);
-  this.columns = new ofp.Layer(ofp.LayerType.Column, this);
-  this.layers.push(this.columns);
-  this.constructions = new ofp.Layer(ofp.LayerType.Construction, this);
-  this.layers.push(this.constructions);
-  this.dimensionAnnotations = new ofp.Layer(ofp.LayerType.DimensionAnnotations, this);
-  this.layers.push(this.dimensionAnnotations);
+  if (layerTypes) {
+    var x;
+    for (x in layerTypes) {
+      if (layerTypes.hasOwnProperty(x)) {
+        this[x] = layerTypes[x];
+        this.layers.push(this[x]);
+      }
+    }
+  } else {
+    this.spaces = new ofp.Layer(ofp.LayerType.Space, this);
+    this.layers.push(this.spaces);
+    this.columns = new ofp.Layer(ofp.LayerType.Column, this);
+    this.layers.push(this.columns);
+    this.constructions = new ofp.Layer(ofp.LayerType.Construction, this);
+    this.layers.push(this.constructions);
+    this.dimensionAnnotations = new ofp.Layer(ofp.LayerType.DimensionAnnotations, this);
+    this.layers.push(this.dimensionAnnotations);
+  }
   var parent = container;
   function getInnerHTML() {
     return parent.innerHTML;
@@ -110,6 +119,7 @@ ofp.FloorPlan.prototype = {
   svg: null,
   layers: [],
   getViewBox: function() {
+    "use strict";
     var svgEl, viewBoxArr, viewBox;
     svgEl = this.svg[0][0];
     if (svgEl && svgEl.viewBox && svgEl.viewBox.baseVal) {
@@ -130,6 +140,7 @@ ofp.FloorPlan.prototype = {
     return viewBox;
   },
   getAvailableLayers: function() {
+    "use strict";
     var availableLayers = [];
     this.layers.forEach(function(element) {
       if (element.size() > 0) {

@@ -1,7 +1,7 @@
 require("./core/core");
 
 require("util").puts(JSON.stringify({
-    "name": "openfloorplan",
+    "name": "ofp.js",
     "version": "0.0.1",
     "description": "Library for interacting with SVG Floor Plans.",
     "keywords": [
@@ -17,7 +17,7 @@ require("util").puts(JSON.stringify({
     },
     "repository": {
         "type": "git",
-        "url": "https://bitbucket.org/syncadd/openfloorplan.git"
+        "url": "https://github.com/openfloorplan/ofp.js.git"
     },
     "main": "index.js",
     "jam": {

@@ -1,7 +1,7 @@
 {
   "name": "ofp.js",
   "version": "0.0.1",
-  "description": "Library for interacting with SVG floorplan data.",
+  "description": "Library for interacting with SVG Floor Plans.",
   "keywords": [
     "floor plan",
     "facility management",
