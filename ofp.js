@@ -84,7 +84,7 @@ ofp.FloorPlan = function(container, layerTypes) {
     var x;
     for (x in layerTypes) {
       if (layerTypes.hasOwnProperty(x)) {
-        this[x] = layerTypes[x];
+        this[x] = new ofp.Layer(layerTypes[x], this);
         this.layers.push(this[x]);
       }
     }
