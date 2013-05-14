@@ -26,8 +26,9 @@ ofp.Layer = function (layerType, floorplan) {
         //assign className if missing by using group ids
         that.layerType.idList.forEach(function (element, index, array) {
             var selection = parent.svg.selectAll(element);
+
             if (selection && selection.size() > 0 && !selection.classed(that.layerType.className)) {
-                console.log("Repairing className: " + that.layerType.className + " for " + selection.size() + " elements with id " + element);
+                //console.log("Repairing className: " + that.layerType.className + " for " + selection.size() + " elements with id " + element);
                 selection.classed(that.layerType.className, true);
             }
         });
